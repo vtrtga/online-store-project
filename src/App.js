@@ -30,7 +30,6 @@ export default class App extends React.Component {
           {categoria.name}
         </button>),
     );
-
     return (
       <BrowserRouter>
         <Switch>
