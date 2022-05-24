@@ -35,6 +35,7 @@ export default class App extends React.Component {
         <Switch>
           <Route exact path="/">
             <CartComponent />
+            <input type="text" id="home-search" />
             <Home />
             {categorias.length > 0 && todasCategorias}
           </Route>
