@@ -40,7 +40,7 @@ export default class App extends React.Component {
             <Home />
             {categorias.length > 0 && todasCategorias}
           </Route>
-          <Route exact path="/Cart">
+          <Route exact path="/Cart ">
             <Cart />
           </Route>
         </Switch>
