@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter,
   Switch,
-  Route
+  Route,
 } from 'react-router-dom';
 import CartComponent from './components/CartComponent';
 import Home from './components/Home';
@@ -25,7 +25,7 @@ export default class App extends React.Component {
       (categoria) => (
         <button
           type="button"
-          key={categoria.name}
+          key={ categoria.name }
           data-testid="category"
         >
           {categoria.name}
@@ -40,7 +40,7 @@ export default class App extends React.Component {
             <Home />
             {categorias.length > 0 && todasCategorias}
           </Route>
-          <Route exact path="/Cart">
+          <Route exact path="/Cart ">
             <Cart />
           </Route>
         </Switch>
