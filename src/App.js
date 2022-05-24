@@ -11,6 +11,9 @@ import * as api from './services/api';
 export default class App extends React.Component {
   state = {
     categorias: [],
+    filterValue: '',
+    products: [],
+    hasSearched: false,
   }
 
   async componentDidMount() {
@@ -18,8 +21,18 @@ export default class App extends React.Component {
     this.setState({ categorias });
   }
 
+  handleChange = ({ target }) => {
+    this.setState({ filterValue: target.value });
+  }
+
+  handleFilter = async () => {
+    const { filterValue } = this.state;
+    const products = await api.getProductsFromCategoryAndQuery(null, filterValue);
+    this.setState({ products, hasSearched: true });
+  }
+
   render() {
-    const { categorias } = this.state;
+    const { categorias, filterValue, products, hasSearched } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
         <button
@@ -35,8 +48,21 @@ export default class App extends React.Component {
         <Switch>
           <Route exact path="/">
             <CartComponent />
-            <input type="text" id="home-search" />
-            <Home />
+            <input
+              type="text"
+              id="home-search"
+              value={ filterValue }
+              onChange={ this.handleChange }
+              data-testid="query-input"
+            />
+            <button
+              type="button"
+              onClick={ this.handleFilter }
+              data-testid="query-button"
+            >
+              Pesquisar
+            </button>
+            <Home products={ products } hasSearched={ hasSearched } />
             {categorias.length > 0 && todasCategorias}
           </Route>
           <Route path="/cart">
