@@ -5,16 +5,16 @@ import { BrowserRouter,
   Redirect } from 'react-router-dom';
 import Home from './components/Home';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
-
-export default App;
