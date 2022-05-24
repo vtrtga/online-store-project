@@ -5,7 +5,9 @@ export default class Home extends React.Component {
     return (
       <div>
         <input type="text" id="home-search" />
-        <p data-testid="home-initial-message">Digite algum termo de pesquisa ou escolha uma categoria.</p>
+        <p data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </p>
       </div>
     );
   }
