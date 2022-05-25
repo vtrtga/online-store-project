@@ -17,7 +17,8 @@ export default class Home extends React.Component {
           nomeProduto={ product.title }
           key={ product.title }
           urlProduto={ product.thumbnail }
-          precoProduto={ `R$${product.price}` }
+          precoProduto={ product
+            .price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }
         />
       ));
     }

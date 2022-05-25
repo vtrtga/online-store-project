@@ -7,7 +7,7 @@ export default class Card extends Component {
     return (
       <div data-testid="product">
         <p>{ nomeProduto }</p>
-        <img src={ urlProduto } alt={ nomeProduto } />
+        <img src={ urlProduto } alt={ nomeProduto } width="100px" height="100px" />
         <p>{ precoProduto }</p>
       </div>
     );
