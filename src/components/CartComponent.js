@@ -11,7 +11,7 @@ export default class CartComponent extends React.Component {
             onClick={ this.sendToCart }
             data-testid="shopping-cart-button"
           >
-            imagine um icone de carrinho aq
+            Carrinho de compras
           </button>
         </Link>
       </div>
