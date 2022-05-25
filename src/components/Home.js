@@ -26,7 +26,7 @@ export default class Home extends React.Component {
 
     return (
       <div>
-        {products.length === 0 ? showRequestInput : conteudo}
+        {Object.keys(products).length === 0 ? showRequestInput : conteudo}
       </div>
     );
   }
