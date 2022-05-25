@@ -35,13 +35,16 @@ export default class App extends React.Component {
     const { categorias, filterValue, products, hasSearched } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
-        <button
-          type="button"
-          key={ categoria.name }
-          data-testid="category"
-        >
-          {categoria.name}
-        </button>),
+        <div key={ categoria.nome } className="divCaregories">
+          <button
+            className="buttonCategory"
+            type="button"
+            key={ categoria.name }
+            data-testid="category"
+          >
+            {categoria.name}
+          </button>
+        </div>),
     );
     return (
       <BrowserRouter>
@@ -59,6 +62,7 @@ export default class App extends React.Component {
               type="button"
               onClick={ this.handleFilter }
               data-testid="query-button"
+              className="queryButton"
             >
               Pesquisar
             </button>
