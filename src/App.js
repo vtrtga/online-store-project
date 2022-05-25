@@ -12,7 +12,7 @@ export default class App extends React.Component {
   state = {
     categorias: [],
     filterValue: '',
-    products: [],
+    products: {},
     hasSearched: false,
   }
 
@@ -25,9 +25,10 @@ export default class App extends React.Component {
     this.setState({ filterValue: target.value });
   }
 
-  handleFilter = async () => {
+  handleFilter = async ({ target }) => {
+    const { id } = target;
     const { filterValue } = this.state;
-    const products = await api.getProductsFromCategoryAndQuery(null, filterValue);
+    const products = await api.getProductsFromCategoryAndQuery(id, filterValue);
     this.setState({ products, hasSearched: true });
   }
 
@@ -35,12 +36,14 @@ export default class App extends React.Component {
     const { categorias, filterValue, products, hasSearched } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
-        <div key={ categoria.nome } className="divCaregories">
+        <div key={ categoria.id } className="divCaregories">
           <button
             className="buttonCategory"
             type="button"
             key={ categoria.name }
             data-testid="category"
+            id={ categoria.id }
+            onClick={ this.handleFilter }
           >
             {categoria.name}
           </button>

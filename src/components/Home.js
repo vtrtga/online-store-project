@@ -15,7 +15,7 @@ export default class Home extends React.Component {
       productElement = products.results.map((product) => (
         <Card
           nomeProduto={ product.title }
-          key={ product.title }
+          key={ product.id }
           urlProduto={ product.thumbnail }
           precoProduto={ product
             .price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }
@@ -33,6 +33,6 @@ export default class Home extends React.Component {
 }
 
 Home.propTypes = {
-  products: PropTypes.arrayOf.isRequired,
+  products: PropTypes.shape().isRequired,
   hasSearched: PropTypes.bool.isRequired,
 };
