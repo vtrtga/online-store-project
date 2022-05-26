@@ -5,6 +5,7 @@ import { BrowserRouter,
 } from 'react-router-dom';
 import CartComponent from './components/CartComponent';
 import Home from './components/Home';
+import ItemDetails from './components/ItemDetails';
 import Cart from './pages/Cart';
 import * as api from './services/api';
 
@@ -14,6 +15,7 @@ export default class App extends React.Component {
     filterValue: '',
     products: {},
     hasSearched: false,
+    currentProduct: {},
   }
 
   async componentDidMount() {
@@ -32,8 +34,12 @@ export default class App extends React.Component {
     this.setState({ products, hasSearched: true });
   }
 
+  setCurrentProduct = (product) => {
+    this.setState({ currentProduct: product });
+  }
+
   render() {
-    const { categorias, filterValue, products, hasSearched } = this.state;
+    const { categorias, filterValue, products, hasSearched, currentProduct } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
         <div key={ categoria.id } className="divCaregories">
@@ -69,11 +75,18 @@ export default class App extends React.Component {
             >
               Pesquisar
             </button>
-            <Home products={ products } hasSearched={ hasSearched } />
+            <Home
+              products={ products }
+              hasSearched={ hasSearched }
+              setCurrentProduct={ this.setCurrentProduct }
+            />
             {categorias.length > 0 && todasCategorias}
           </Route>
           <Route path="/cart">
             <Cart />
+          </Route>
+          <Route path="/item/:id">
+            <ItemDetails currentProduct={ currentProduct } />
           </Route>
         </Switch>
       </BrowserRouter>
