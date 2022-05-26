@@ -7,6 +7,7 @@ import CartComponent from './components/CartComponent';
 import Home from './components/Home';
 import ItemDetails from './components/ItemDetails';
 import Cart from './pages/Cart';
+import Rating from './components/Rating';
 import * as api from './services/api';
 
 export default class App extends React.Component {
@@ -20,7 +21,7 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const categorias = await api.getCategories();
-    this.setState({ categorias });
+    this.setState({ categorias, currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
   }
 
   handleChange = ({ target }) => {
@@ -36,6 +37,7 @@ export default class App extends React.Component {
 
   setCurrentProduct = (product) => {
     this.setState({ currentProduct: product });
+    localStorage.setItem('currentProduct', JSON.stringify(product));
   }
 
   render() {
@@ -85,9 +87,15 @@ export default class App extends React.Component {
           <Route path="/cart">
             <Cart />
           </Route>
-          <Route path="/item/:id">
-            <ItemDetails currentProduct={ currentProduct } />
-          </Route>
+          <Route
+            path="/item/:id"
+            render={ (props) => (
+              <div>
+
+                <ItemDetails currentProduct={ currentProduct } />
+                <Rating currentProduct={ currentProduct } { ...props } />
+              </div>) }
+          />
         </Switch>
       </BrowserRouter>
     );

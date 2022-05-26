@@ -9,8 +9,11 @@ export default class Rating extends React.Component {
   }
 
   componentDidMount() {
-    const savedRatings = JSON.parse(localStorage.getItem('rating')) || [];
-    this.setState({ previousRatings: savedRatings });
+    const { match } = this.props;
+    const { params } = match;
+    const { id } = params;
+    const ratings = JSON.parse(localStorage.getItem(id)) || [];
+    this.setState({ previousRatings: ratings });
   }
 
   handleChange = ({ target }) => {
@@ -20,9 +23,12 @@ export default class Rating extends React.Component {
 
   handleSubmit = () => {
     const { emailField, message, rating, previousRatings } = this.state;
+    const { currentProduct } = this.props;
+    const { id } = currentProduct;
+    console.log(id)
     const newRating = { email: emailField, message, rating };
-    localStorage.setItem('rating', JSON.stringify([...previousRatings, newRating]));
-    this.setState({ previousRatings: JSON.parse(localStorage.getItem('rating')) });
+    localStorage.setItem(id, JSON.stringify([...previousRatings, newRating]));
+    this.setState({ previousRatings: JSON.parse(localStorage.getItem(id)) });
   }
 
   render() {
@@ -30,13 +36,13 @@ export default class Rating extends React.Component {
     const ratingValue = ['1', '2', '3', '4', '5'];
     const radios = (
       <div>
-        {ratingValue.map((radio) => (
+        {ratingValue.map((radio, index) => (
           <input
             type="radio"
             name="rating"
             value={ radio }
-            data-testid={ radio }
-            key={ radio }
+            data-testid={ `${radio}-rating` }
+            key={ index }
             onChange={ this.handleChange }
           />
         ))}
@@ -48,7 +54,7 @@ export default class Rating extends React.Component {
         <p>{rating.message}</p>
         <p>{rating.rating}</p>
       </div>
-    ));
+    ))
 
     return (
       <div>
@@ -80,7 +86,7 @@ export default class Rating extends React.Component {
         </div>
         <div className="ratingsAnteriores">
           {previousRatings.length > 0 && previousRatingsElements}
-        </div>
+          </div>
       </div>
     );
   }
