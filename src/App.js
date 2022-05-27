@@ -28,19 +28,20 @@ export default class App extends React.Component {
   }
 
   addToCart = (produto) => {
-    const { cartProducts } = this.state;
     this.setState((i) => ({
       cartProducts: [...i.cartProducts, produto],
+      cartProductsReduce: [...i.cartProducts, produto]
+        .filter((value, index, self) => self.indexOf(value) === index),
     }));
 
     // this.setState({
     //   cartProductsReduce: [...new Set(cartProducts)],
     // });
-    this.setState({
-      cartProductsReduce: cartProducts.filter((item, index) => (
-        cartProducts.indexOf(item) === index
-      )),
-    });
+    // this.setState({
+    //   cartProductsReduce: cartProducts.filter((item, index) => (
+    //     cartProducts.indexOf(item) === index
+    //   )),
+    // });
   }
 
   handleChange = ({ target }) => {
