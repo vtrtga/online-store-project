@@ -5,7 +5,9 @@ import { BrowserRouter,
 } from 'react-router-dom';
 import CartComponent from './components/CartComponent';
 import Home from './components/Home';
+import ItemDetails from './components/ItemDetails';
 import Cart from './pages/Cart';
+import Rating from './components/Rating';
 import * as api from './services/api';
 
 export default class App extends React.Component {
@@ -14,11 +16,12 @@ export default class App extends React.Component {
     filterValue: '',
     products: {},
     hasSearched: false,
+    currentProduct: {},
   }
 
   async componentDidMount() {
     const categorias = await api.getCategories();
-    this.setState({ categorias });
+    this.setState({ categorias, currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
   }
 
   handleChange = ({ target }) => {
@@ -32,8 +35,13 @@ export default class App extends React.Component {
     this.setState({ products, hasSearched: true });
   }
 
+  setCurrentProduct = (product) => {
+    this.setState({ currentProduct: product });
+    localStorage.setItem('currentProduct', JSON.stringify(product));
+  }
+
   render() {
-    const { categorias, filterValue, products, hasSearched } = this.state;
+    const { categorias, filterValue, products, hasSearched, currentProduct } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
         <div key={ categoria.id } className="divCaregories">
@@ -69,12 +77,25 @@ export default class App extends React.Component {
             >
               Pesquisar
             </button>
-            <Home products={ products } hasSearched={ hasSearched } />
+            <Home
+              products={ products }
+              hasSearched={ hasSearched }
+              setCurrentProduct={ this.setCurrentProduct }
+            />
             {categorias.length > 0 && todasCategorias}
           </Route>
           <Route path="/cart">
             <Cart />
           </Route>
+          <Route
+            path="/item/:id"
+            render={ (props) => (
+              <div>
+
+                <ItemDetails currentProduct={ currentProduct } />
+                <Rating currentProduct={ currentProduct } { ...props } />
+              </div>) }
+          />
         </Switch>
       </BrowserRouter>
     );
