@@ -25,6 +25,7 @@ export default class App extends React.Component {
     const categorias = await api.getCategories();
     this.setState({ categorias,
       currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
+
   }
 
   addToCart = (produto) => {
@@ -42,6 +43,7 @@ export default class App extends React.Component {
     //     cartProducts.indexOf(item) === index
     //   )),
     // });
+
   }
 
   handleChange = ({ target }) => {
