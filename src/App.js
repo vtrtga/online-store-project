@@ -21,7 +21,8 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const categorias = await api.getCategories();
-    this.setState({ categorias, currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
+    this.setState({ categorias,
+      currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
   }
 
   handleChange = ({ target }) => {
@@ -62,7 +63,7 @@ export default class App extends React.Component {
         <Switch>
           <Route exact path="/">
             <CartComponent />
-``            <input
+            <input
               type="text"
               id="home-search"
               value={ filterValue }

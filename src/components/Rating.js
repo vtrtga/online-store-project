@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Rating extends React.Component {
   state = {
@@ -25,7 +26,6 @@ export default class Rating extends React.Component {
     const { emailField, message, rating, previousRatings } = this.state;
     const { currentProduct } = this.props;
     const { id } = currentProduct;
-    console.log(id)
     const newRating = { email: emailField, message, rating };
     localStorage.setItem(id, JSON.stringify([...previousRatings, newRating]));
     this.setState({ previousRatings: JSON.parse(localStorage.getItem(id)) });
@@ -54,7 +54,7 @@ export default class Rating extends React.Component {
         <p>{rating.message}</p>
         <p>{rating.rating}</p>
       </div>
-    ))
+    ));
 
     return (
       <div>
@@ -86,8 +86,13 @@ export default class Rating extends React.Component {
         </div>
         <div className="ratingsAnteriores">
           {previousRatings.length > 0 && previousRatingsElements}
-          </div>
+        </div>
       </div>
     );
   }
 }
+
+Rating.propTypes = {
+  match: PropTypes.func.isRequired,
+  currentProduct: PropTypes.string.isRequired,
+};
