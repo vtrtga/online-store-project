@@ -17,11 +17,30 @@ export default class App extends React.Component {
     products: {},
     hasSearched: false,
     currentProduct: {},
+    cartProducts: [],
+    cartProductsReduce: [],
   }
 
   async componentDidMount() {
     const categorias = await api.getCategories();
-    this.setState({ categorias, currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
+    this.setState({ categorias,
+      currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
+  }
+
+  addToCart = (produto) => {
+    const { cartProducts } = this.state;
+    this.setState((i) => ({
+      cartProducts: [...i.cartProducts, produto],
+    }));
+
+    // this.setState({
+    //   cartProductsReduce: [...new Set(cartProducts)],
+    // });
+    this.setState({
+      cartProductsReduce: cartProducts.filter((item, index) => (
+        cartProducts.indexOf(item) === index
+      )),
+    });
   }
 
   handleChange = ({ target }) => {
@@ -35,13 +54,20 @@ export default class App extends React.Component {
     this.setState({ products, hasSearched: true });
   }
 
+  // removeProductFromCart = (produto) => {
+  //   const { cartProducts } = this.state;
+
+  // }
+
   setCurrentProduct = (product) => {
     this.setState({ currentProduct: product });
     localStorage.setItem('currentProduct', JSON.stringify(product));
   }
 
   render() {
-    const { categorias, filterValue, products, hasSearched, currentProduct } = this.state;
+    const { categorias, filterValue,
+      products, hasSearched, currentProduct, cartProducts,
+      cartProductsReduce } = this.state;
     const todasCategorias = categorias.map(
       (categoria) => (
         <div key={ categoria.id } className="divCaregories">
@@ -78,6 +104,7 @@ export default class App extends React.Component {
               Pesquisar
             </button>
             <Home
+              addToCart={ this.addToCart }
               products={ products }
               hasSearched={ hasSearched }
               setCurrentProduct={ this.setCurrentProduct }
@@ -85,7 +112,10 @@ export default class App extends React.Component {
             {categorias.length > 0 && todasCategorias}
           </Route>
           <Route path="/cart">
-            <Cart />
+            <Cart
+              cartProductsReduce={ cartProductsReduce }
+              cartProducts={ cartProducts }
+            />
           </Route>
           <Route
             path="/item/:id"

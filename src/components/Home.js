@@ -5,7 +5,7 @@ import Card from './Card';
 
 export default class Home extends React.Component {
   render() {
-    const { products, hasSearched, setCurrentProduct } = this.props;
+    const { products, hasSearched, setCurrentProduct, addToCart } = this.props;
     const frase = 'Nenhum produto encontrado';
     const showRequestInput = hasSearched ? '' : (
       <p data-testid="home-initial-message">
@@ -14,19 +14,30 @@ export default class Home extends React.Component {
     let productElement = [];
     if (hasSearched === true) {
       productElement = products.results.map((product) => (
-        <Link
-          to={ `item/${product.id}` }
-          key={ product.id }
-          data-testid="product-detail-link"
-          onClick={ () => setCurrentProduct(product) }
-        >
-          <Card
-            nomeProduto={ product.title }
-            urlProduto={ product.thumbnail }
-            precoProduto={ product
-              .price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }
-          />
-        </Link>
+        <div key={ product.id }>
+
+          <Link
+            to={ `item/${product.id}` }
+            key={ product.id }
+            data-testid="product-detail-link"
+            onClick={ () => setCurrentProduct(product) }
+          >
+            <Card
+              nomeProduto={ product.title }
+              urlProduto={ product.thumbnail }
+              precoProduto={ product
+                .price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }
+            />
+          </Link>
+          <button
+            data-testid="product-add-to-cart"
+            onClick={ () => addToCart(product) }
+            type="button"
+          >
+            Adicionar ao carrinho
+
+          </button>
+        </div>
       ));
     }
     const conteudo = productElement.length > 0 ? productElement : frase;
