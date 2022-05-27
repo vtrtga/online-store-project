@@ -54,7 +54,7 @@ export default class App extends React.Component {
         <Switch>
           <Route exact path="/">
             <CartComponent />
-            <input
+``            <input
               type="text"
               id="home-search"
               value={ filterValue }
