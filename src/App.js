@@ -21,7 +21,8 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const categorias = await api.getCategories();
-    this.setState({ categorias, currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
+    this.setState({ categorias,
+      currentProduct: JSON.parse(localStorage.getItem('currentProduct')) || {} });
   }
 
   handleChange = ({ target }) => {
